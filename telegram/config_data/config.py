@@ -1,11 +1,8 @@
-import os
-from dotenv import load_dotenv, find_dotenv
+from pydantic_settings import BaseSettings
 
 
-if not find_dotenv():
-    exit("Environment variables are not loaded because the file is missing .env")
-else:
-    load_dotenv()
-    
+class Settings(BaseSettings):
+	BOT_TOKEN: str = "BOT_TOKEN"
+	
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+settings = Settings()
