@@ -8,6 +8,7 @@ from states.create_task import CreateTask
 from keyboards.reply.main_kb import main_kb
 from keyboards.reply.back_kb import back_kb
 from keyboards.reply.back_or_further_kb import back_or_further_kb
+from keyboards.reply.states_kb import state_kb
 
 
 router = Router(name=__name__)
@@ -32,32 +33,34 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 		)
 	
 
-# Переход назад к состоянию "name"
-@router.message(CreateTask.description, F.text == 'Назад')
-async def description_task_back(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.name)
-	await message.answer(
-		text='Напишите название задачи.',
-		reply_markup=back_kb(),
-		)
-
-
-# Переход к следующему состоянию если пользователь ввел корректный текст
-@router.message(CreateTask.description, F.text)
-async def description_task(message: Message, state: FSMContext):
+# Переход назад к состоянию "responsible_person"
+@router.message(CreateTask.tags, F.text == 'Назад')
+async def tags_task_back(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.responsible_person)
-	await state.update_data(description=message.text)
 	await message.answer(
 		text='Напишите ответственного человека или пропустите данный этап.',
 		reply_markup=back_or_further_kb(),
 		)
 	
 
-# Предупреждение пользователя о том что надо ввести корректное описание
-# и так же не пропускает пользователя дальше
-@router.message(CreateTask.description)
-async def description_task_missklick(message: Message):
+# Переход к следующему состоянию "state" если пользователь ввел корректного теги
+@router.message(CreateTask.tags, F.text)
+async def tags_person_task(message: Message, state: FSMContext):
+	await state.set_state(CreateTask.state)
+	await state.update_data(
+		responsible_person=['#' + teg.strip() for teg in message.text.split(' ')])
 	await message.answer(
-		text='Я вас не понял, напишите пожалуйста корректное описание задачи!',
+		text='Выберите состояние задачи.',
+		reply_markup=state_kb(),
+		)
+	
+
+# Предупреждение пользователя о том что надо ввести корректного теги
+# и так же не пропускает пользователя дальше
+@router.message(CreateTask.tags)
+async def tags_task_missklick(message: Message):
+	await message.answer(
+		text='Я вас не понял, напишите пожалуйста корректного теги через пробел!\n'
+			 'Пример: bug python database',
 		reply_markup=back_kb(),
 		)

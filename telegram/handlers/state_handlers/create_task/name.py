@@ -7,7 +7,7 @@ from aiogram.fsm.state import default_state
 
 from states.create_task import CreateTask
 from keyboards.reply.main_kb import main_kb
-from keyboards.reply.back import back_kb
+from keyboards.reply.back_kb import back_kb
 
 
 router = Router(name=__name__)

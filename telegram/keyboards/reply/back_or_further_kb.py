@@ -6,7 +6,7 @@ def back_or_further_kb():
 	button2 = KeyboardButton(text="Дальше")
 
 	keyboard = ReplyKeyboardMarkup(
-		keyboard=[[button1], [button2]],
+		keyboard=[[button2], [button1]],
 		resize_keyboard=True,
 		one_time_keyboard=True,)
     

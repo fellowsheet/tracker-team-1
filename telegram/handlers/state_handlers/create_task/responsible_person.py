@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 
 from states.create_task import CreateTask
 from keyboards.reply.main_kb import main_kb
-from keyboards.reply.back import back_kb
+from keyboards.reply.back_kb import back_kb
 from keyboards.reply.back_or_further_kb import back_or_further_kb
 
 
@@ -48,7 +48,8 @@ async def responsible_person_task_further(message: Message, state: FSMContext):
 	await state.update_data(responsible_person=None)
 	await state.set_state(CreateTask.tags)
 	await message.answer(
-		text='Напишите теги этой задачи через пробел.',
+		text='Напишите теги этой задачи через пробел.\n'
+			 'Пример: bug python database',
 		reply_markup=back_kb(),
 		)
 	
@@ -59,7 +60,8 @@ async def responsible_person_task(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.tags)
 	await state.update_data(responsible_person=message.text)
 	await message.answer(
-		text='Напишите теги этой задачи через пробел.',
+		text='Напишите теги этой задачи через пробел.\n'
+			 'Пример: bug python database',
 		reply_markup=back_kb(),
 		)
 	
