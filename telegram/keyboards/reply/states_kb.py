@@ -2,7 +2,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 def state_kb():
-	button1 = KeyboardButton(text='Новая')
+	button1 = KeyboardButton(text='Новая задача')
 	button2 = KeyboardButton(text='В работе')
 	button3 = KeyboardButton(text='На проверке')
 	button4 = KeyboardButton(text='Готово')

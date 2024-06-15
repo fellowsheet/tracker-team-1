@@ -45,7 +45,7 @@ async def tags_task_back(message: Message, state: FSMContext):
 
 # Переход к следующему состоянию "state" если пользователь ввел корректного теги
 @router.message(CreateTask.tags, F.text)
-async def tags_person_task(message: Message, state: FSMContext):
+async def tags_task(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.state)
 	await state.update_data(
 		responsible_person=['#' + teg.strip() for teg in message.text.split(' ')])
