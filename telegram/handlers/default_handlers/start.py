@@ -6,6 +6,8 @@ from aiogram.filters import CommandStart
 router = Router(name=__name__)
 
 
-@router.message(CommandStart)
+@router.message(CommandStart())
 async def start_handler(message: Message):
-	await message.reply(text=message.chat.id)
+	await message.reply(
+		text=f"Hello, {message.from_user.first_name}!"
+		)
