@@ -19,11 +19,10 @@ router = Router(name=__name__)
 # меню.
 # Так как создавать задачи может только руководящее звено, то дальше надо
 # добавить валидацию на руководство.
-#
+
 # Перехватывание кнопки и начало FSM машины
 @router.message(F.text == 'Создать задачу', default_state)
 async def create_task_start(message: Message, state: FSMContext) -> None:
-	# 
 	await state.set_state(CreateTask.name)
 	await message.answer(
 		text='Напишите название задачи.\n'

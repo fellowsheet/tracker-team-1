@@ -71,6 +71,6 @@ async def responsible_person_task(message: Message, state: FSMContext):
 @router.message(CreateTask.responsible_person)
 async def responsible_person_task_missklick(message: Message):
 	await message.answer(
-		text='Я вас не понял, напишите пожалуйста корректного исполнителя или пропустите данный этап.!',
+		text='Я вас не понял, напишите пожалуйста корректного исполнителя или пропустите данный этап!',
 		reply_markup=back_or_further_kb(),
 		)

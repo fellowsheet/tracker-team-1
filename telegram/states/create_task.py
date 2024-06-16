@@ -7,5 +7,5 @@ class CreateTask(StatesGroup):
 	responsible_person = State()
 	tags = State()
 	state = State()
-	proirity = State()
+	priority = State()
 	deadline_date = State()

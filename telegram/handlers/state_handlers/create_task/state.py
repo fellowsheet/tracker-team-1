@@ -44,10 +44,10 @@ async def state_task_back(message: Message, state: FSMContext):
 		)
 	
 
-# Переход к следующему состоянию "proirity" если пользователь ввел корректного состояние # задачи (Новая задача)
+# Переход к следующему состоянию "proirity" если пользователь ввел корректное состояние # задачи (Новая задача)
 @router.message(CreateTask.state, F.text == 'Новая задача')
 async def state_task1(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.proirity)
+	await state.set_state(CreateTask.priority)
 	await state.update_data(state=message.text)
 	await message.answer(
 		text='Выберите приоритетность задачи.',
@@ -55,10 +55,10 @@ async def state_task1(message: Message, state: FSMContext):
 		)
 	
 
-# Переход к следующему состоянию "proirity" если пользователь ввел корректного состояние # задачи (В работе)
+# Переход к следующему состоянию "proirity" если пользователь ввел корректное состояние # задачи (В работе)
 @router.message(CreateTask.state, F.text == 'В работе')
 async def state_task2(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.proirity)
+	await state.set_state(CreateTask.priority)
 	await state.update_data(state=message.text)
 	await message.answer(
 		text='Выберите приоритетность задачи.',
@@ -66,10 +66,10 @@ async def state_task2(message: Message, state: FSMContext):
 		)
 	
 
-# Переход к следующему состоянию "proirity" если пользователь ввел корректного состояние # задачи (На проверке)
+# Переход к следующему состоянию "proirity" если пользователь ввел корректное состояние # задачи (На проверке)
 @router.message(CreateTask.state, F.text == 'На проверке')
 async def state_task3(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.proirity)
+	await state.set_state(CreateTask.priority)
 	await state.update_data(state=message.text)
 	await message.answer(
 		text='Выберите приоритетность задачи.',
@@ -77,10 +77,10 @@ async def state_task3(message: Message, state: FSMContext):
 		)
 	
 
-# Переход к следующему состоянию "proirity" если пользователь ввел корректного состояние # задачи (Готово)
+# Переход к следующему состоянию "proirity" если пользователь ввел корректное состояние # задачи (Готово)
 @router.message(CreateTask.state, F.text == 'Готово')
 async def state_task4(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.proirity)
+	await state.set_state(CreateTask.priority)
 	await state.update_data(state=message.text)
 	await message.answer(
 		text='Выберите приоритетность задачи.',
@@ -88,10 +88,10 @@ async def state_task4(message: Message, state: FSMContext):
 		)
 	
 
-# Переход к следующему состоянию "proirity" если пользователь ввел корректного состояние # задачи (Баги)
+# Переход к следующему состоянию "proirity" если пользователь ввел корректное состояние # задачи (Баги)
 @router.message(CreateTask.state, F.text == 'Баги')
 async def state_task5(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.proirity)
+	await state.set_state(CreateTask.priority)
 	await state.update_data(state=message.text)
 	await message.answer(
 		text='Выберите приоритетность задачи.',
@@ -99,7 +99,7 @@ async def state_task5(message: Message, state: FSMContext):
 		)
 	
 
-# Предупреждение пользователя о том что надо ввести корректного состояние задачи
+# Предупреждение пользователя о том что надо ввести корректное состояние задачи
 # и так же не пропускает пользователя дальше
 @router.message(CreateTask.state)
 async def state_task_missklick(message: Message):

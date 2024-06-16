@@ -48,7 +48,7 @@ async def tags_task_back(message: Message, state: FSMContext):
 async def tags_task(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.state)
 	await state.update_data(
-		responsible_person=['#' + teg.strip() for teg in message.text.split(' ')])
+		tags=' '.join(["#" + tag.strip() for tag in message.text.split(' ')]))
 	await message.answer(
 		text='Выберите состояние задачи.',
 		reply_markup=state_kb(),
