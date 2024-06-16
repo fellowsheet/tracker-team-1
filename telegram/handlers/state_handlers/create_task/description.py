@@ -15,29 +15,29 @@ router = Router(name=__name__)
 
 # Один из вариантов выхода из машины состояния, предупреждение об этой 
 # команде написано при запуске состояния
-@router.message(Command('cancel'))
-@router.message(F.text == 'cancel')
+@router.message(Command("cancel"))
+@router.message(F.text == "cancel")
 async def cancel_handler(message: Message, state: FSMContext) -> None:
 	current_state = await state.get_state()
 	if current_state is None:
 		await message.reply(
-			text='Нечего отменять, но хорошо.',
+			text="Нечего отменять, но хорошо.",
 			)
 		return
 	
 	await state.clear()
 	await message.answer(
-		text='Состояние завершено.',
+		text="Состояние завершено.",
 		reply_markup=main_kb(),
 		)
 	
 
 # Переход назад к состоянию "name"
-@router.message(CreateTask.description, F.text == 'Назад')
+@router.message(CreateTask.description, F.text == "Назад")
 async def description_task_back(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.name)
 	await message.answer(
-		text='Напишите название задачи.',
+		text="Напишите название задачи.",
 		reply_markup=back_kb(),
 		)
 
@@ -48,7 +48,7 @@ async def description_task(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.responsible_person)
 	await state.update_data(description=message.text)
 	await message.answer(
-		text='Напишите ответственного человека или пропустите данный этап.',
+		text="Напишите ответственного человека или пропустите данный этап.",
 		reply_markup=back_or_further_kb(),
 		)
 	
@@ -58,6 +58,6 @@ async def description_task(message: Message, state: FSMContext):
 @router.message(CreateTask.description)
 async def description_task_missklick(message: Message):
 	await message.answer(
-		text='Я вас не понял, напишите пожалуйста корректное описание задачи!',
+		text="Я вас не понял, напишите пожалуйста корректное описание задачи!",
 		reply_markup=back_kb(),
 		)

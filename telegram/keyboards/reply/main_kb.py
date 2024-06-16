@@ -2,7 +2,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 def main_kb():
-	button1 = KeyboardButton(text='Создать задачу')
+	button1 = KeyboardButton(text="Создать задачу")
 
 	keyboard = ReplyKeyboardMarkup(
 		keyboard=[[button1]],

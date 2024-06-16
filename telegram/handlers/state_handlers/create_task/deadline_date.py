@@ -15,6 +15,10 @@ from datetime import datetime
 router = Router(name=__name__)
 
 
+# Вывод результата в сообщение (далее при подключении к БД видоизменится ответ)
+# Необходимо решить вопрос по поводу как будут выводиться сотрудники которым можно
+# назначить задачу или же надо самому писать (имя\id) сотрудника, так же надо будет 
+# сделать валидацию на руководство
 async def send_create_task_info(message: Message, data: dict) -> None:
 	text = "Your task:\n\n"\
 		f"Name: {data["name"]}\n"\
@@ -34,29 +38,29 @@ async def send_create_task_info(message: Message, data: dict) -> None:
 
 # Один из вариантов выхода из машины состояния, предупреждение об этой 
 # команде написано при запуске состояния
-@router.message(Command('cancel'))
-@router.message(F.text == 'cancel')
+@router.message(Command("cancel"))
+@router.message(F.text == "cancel")
 async def cancel_handler(message: Message, state: FSMContext) -> None:
 	current_state = await state.get_state()
 	if current_state is None:
 		await message.reply(
-			text='Нечего отменять, но хорошо.',
+			text="Нечего отменять, но хорошо.",
 			)
 		return
 	
 	await state.clear()
 	await message.answer(
-		text='Состояние завершено.',
+		text="Состояние завершено.",
 		reply_markup=main_kb(),
 		)
 	
 
 # Переход назад к состоянию "proirity"
-@router.message(CreateTask.deadline_date, F.text == 'Назад')
+@router.message(CreateTask.deadline_date, F.text == "Назад")
 async def deadline_date_task_back(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.priority)
 	await message.answer(
-		text='Выберите приоритетность задачи.',
+		text="Выберите приоритетность задачи.",
 		reply_markup=priority_kb(),
 		)
 	
@@ -75,7 +79,7 @@ async def deadline_date_task(message: Message, state: FSMContext):
 @router.message(CreateTask.deadline_date)
 async def deadline_date_task_missklick(message: Message):
 	await message.answer(
-		text='Я вас не понял, напишите пожалуйста корректную дату в формате 31-12-2012',
+		text="Я вас не понял, напишите пожалуйста корректную дату в формате 31-12-2012",
 		reply_markup=back_kb(),
 		)
 

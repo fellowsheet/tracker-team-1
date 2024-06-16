@@ -16,29 +16,29 @@ router = Router(name=__name__)
 
 # Один из вариантов выхода из машины состояния, предупреждение об этой 
 # команде написано при запуске состояния
-@router.message(Command('cancel'))
-@router.message(F.text == 'cancel')
+@router.message(Command("cancel"))
+@router.message(F.text == "cancel")
 async def cancel_handler(message: Message, state: FSMContext) -> None:
 	current_state = await state.get_state()
 	if current_state is None:
 		await message.reply(
-			text='Нечего отменять, но хорошо.',
+			text="Нечего отменять, но хорошо.",
 			)
 		return
 	
 	await state.clear()
 	await message.answer(
-		text='Состояние завершено.',
+		text="Состояние завершено.",
 		reply_markup=main_kb(),
 		)
 	
 
 # Переход назад к состоянию "responsible_person"
-@router.message(CreateTask.tags, F.text == 'Назад')
+@router.message(CreateTask.tags, F.text == "Назад")
 async def tags_task_back(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.responsible_person)
 	await message.answer(
-		text='Напишите ответственного человека или пропустите данный этап.',
+		text="Напишите ответственного человека или пропустите данный этап.",
 		reply_markup=back_or_further_kb(),
 		)
 	
@@ -48,9 +48,9 @@ async def tags_task_back(message: Message, state: FSMContext):
 async def tags_task(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.state)
 	await state.update_data(
-		tags=' '.join(["#" + tag.strip() for tag in message.text.split(' ')]))
+		tags=" ".join(["#" + tag.strip() for tag in message.text.split(" ")]))
 	await message.answer(
-		text='Выберите состояние задачи.',
+		text="Выберите состояние задачи.",
 		reply_markup=state_kb(),
 		)
 	
@@ -60,7 +60,7 @@ async def tags_task(message: Message, state: FSMContext):
 @router.message(CreateTask.tags)
 async def tags_task_missklick(message: Message):
 	await message.answer(
-		text='Я вас не понял, напишите пожалуйста корректного теги через пробел!\n'
-			 'Пример: bug python database',
+		text="Я вас не понял, напишите пожалуйста корректного теги через пробел!\n"
+			 "Пример: bug python database",
 		reply_markup=back_kb(),
 		)

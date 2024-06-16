@@ -16,73 +16,73 @@ router = Router(name=__name__)
 
 # Один из вариантов выхода из машины состояния, предупреждение об этой 
 # команде написано при запуске состояния
-@router.message(Command('cancel'))
-@router.message(F.text == 'cancel')
+@router.message(Command("cancel"))
+@router.message(F.text == "cancel")
 async def cancel_handler(message: Message, state: FSMContext) -> None:
 	current_state = await state.get_state()
 	if current_state is None:
 		await message.reply(
-			text='Нечего отменять, но хорошо.',
+			text="Нечего отменять, но хорошо.",
 			)
 		return
 	
 	await state.clear()
 	await message.answer(
-		text='Состояние завершено.',
+		text="Состояние завершено.",
 		reply_markup=main_kb(),
 		)
 	
 
 # Переход назад к состоянию "state"
-@router.message(CreateTask.priority, F.text == 'Назад')
+@router.message(CreateTask.priority, F.text == "Назад")
 async def proirity_task_back(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.state)
 	await message.answer(
-		text='Выберите состояние задачи.',
+		text="Выберите состояние задачи.",
 		reply_markup=state_kb(),
 		)
 	
 
 # Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Low)
-@router.message(CreateTask.priority, F.text == 'Low')
+@router.message(CreateTask.priority, F.text == "Low")
 async def priority_task1(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.deadline_date)
 	await state.update_data(priority=message.text)
 	await message.answer(
-		text='Напишите дедлайн задачи в формате 31-12-2012',
+		text="Напишите дедлайн задачи в формате 31-12-2012",
 		reply_markup=back_kb(),
 	)
 
 
 # Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Normal)
-@router.message(CreateTask.priority, F.text == 'Normal')
+@router.message(CreateTask.priority, F.text == "Normal")
 async def priority_task2(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.deadline_date)
 	await state.update_data(priority=message.text)
 	await message.answer(
-		text='Напишите дедлайн задачи в формате 31-12-2012',
+		text="Напишите дедлайн задачи в формате 31-12-2012",
 		reply_markup=back_kb(),
 	)
 
 
 # Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Major)
-@router.message(CreateTask.priority, F.text == 'Major')
+@router.message(CreateTask.priority, F.text == "Major")
 async def priority_task3(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.deadline_date)
 	await state.update_data(priority=message.text)
 	await message.answer(
-		text='Напишите дедлайн задачи в формате 31-12-2012',
+		text="Напишите дедлайн задачи в формате 31-12-2012",
 		reply_markup=back_kb(),
 	)
 
 
 # Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Critical)
-@router.message(CreateTask.priority, F.text == 'Critical')
+@router.message(CreateTask.priority, F.text == "Critical")
 async def priority_task4(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.deadline_date)
 	await state.update_data(priority=message.text)
 	await message.answer(
-		text='Напишите дедлайн задачи в формате 31-12-2012',
+		text="Напишите дедлайн задачи в формате 31-12-2012",
 		reply_markup=back_kb(),
 	)
 
@@ -92,6 +92,6 @@ async def priority_task4(message: Message, state: FSMContext):
 @router.message(CreateTask.priority)
 async def priority_task_missklick(message: Message):
 	await message.answer(
-		text='Я вас не понял, выберите пожалуйста приоритет задачи!',
+		text="Я вас не понял, выберите пожалуйста приоритет задачи!",
 		reply_markup=priority_kb(),
 		)

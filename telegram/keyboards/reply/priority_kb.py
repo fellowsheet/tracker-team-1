@@ -2,11 +2,11 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 def priority_kb():
-	button1 = KeyboardButton(text='Low')
-	button2 = KeyboardButton(text='Normal')
-	button3 = KeyboardButton(text='Major')
-	button4 = KeyboardButton(text='Critical')
-	button5 = KeyboardButton(text='Назад')
+	button1 = KeyboardButton(text="Low")
+	button2 = KeyboardButton(text="Normal")
+	button3 = KeyboardButton(text="Major")
+	button4 = KeyboardButton(text="Critical")
+	button5 = KeyboardButton(text="Назад")
 
 
 	keyboard = ReplyKeyboardMarkup(
