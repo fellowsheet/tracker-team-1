@@ -8,6 +8,7 @@ from aiogram.fsm.state import any_state
 router = Router(name=__name__)
 
 
+# Команда для выхода из FSM из любого состояния, так же можно ее вызвать не в FSM, ничего тогда завершено не будет
 @router.message(Command("cancel"), any_state)
 @router.message(F.text == "cancel", any_state)
 async def cancel_handler(message: Message, state: FSMContext) -> None:

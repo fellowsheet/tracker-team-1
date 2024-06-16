@@ -50,7 +50,7 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 		)
 	
 
-# Выход из состояния есть пользователь нажал на кнопку "Назад"
+# Выход из состояния если пользователь нажал на кнопку "Назад"
 @router.message(CreateTask.name, F.text == "Назад")
 async def name_task_back(message: Message, state: FSMContext):
 	await message.answer(

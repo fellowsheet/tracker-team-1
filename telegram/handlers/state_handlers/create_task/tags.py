@@ -8,7 +8,7 @@ from states.create_task import CreateTask
 from keyboards.reply.main_kb import main_kb
 from keyboards.reply.back_kb import back_kb
 from keyboards.reply.back_or_further_kb import back_or_further_kb
-from keyboards.reply.states_kb import state_kb
+from keyboards.reply.status_kb import status_kb
 
 
 router = Router(name=__name__)
@@ -33,25 +33,25 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 		)
 	
 
-# Переход назад к состоянию "responsible_person"
+# Переход назад к состоянию "worker"
 @router.message(CreateTask.tags, F.text == "Назад")
 async def tags_task_back(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.responsible_person)
+	await state.set_state(CreateTask.worker)
 	await message.answer(
 		text="Напишите ответственного человека или пропустите данный этап.",
 		reply_markup=back_or_further_kb(),
 		)
 	
 
-# Переход к следующему состоянию "state" если пользователь ввел корректного теги
+# Переход к следующему состоянию "status" если пользователь ввел корректного теги
 @router.message(CreateTask.tags, F.text)
 async def tags_task(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.state)
+	await state.set_state(CreateTask.status)
 	await state.update_data(
 		tags=" ".join(["#" + tag.strip() for tag in message.text.split(" ")]))
 	await message.answer(
 		text="Выберите состояние задачи.",
-		reply_markup=state_kb(),
+		reply_markup=status_kb(),
 		)
 	
 

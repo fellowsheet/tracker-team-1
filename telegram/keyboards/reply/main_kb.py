@@ -1,6 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
+# Кнопки главного меню
 def main_kb():
 	button1 = KeyboardButton(text="Создать задачу")
 

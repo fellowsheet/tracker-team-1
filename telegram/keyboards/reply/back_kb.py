@@ -1,6 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
+# Обычная кнопка назад чтобы вернуться к прошлому состоянию в FSM
 def back_kb():
 	button1 = KeyboardButton(text="Назад")
 

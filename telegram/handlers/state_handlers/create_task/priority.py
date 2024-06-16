@@ -7,8 +7,9 @@ from aiogram.fsm.context import FSMContext
 from states.create_task import CreateTask
 from keyboards.reply.main_kb import main_kb
 from keyboards.reply.back_kb import back_kb
-from keyboards.reply.states_kb import state_kb
+from keyboards.reply.status_kb import status_kb
 from keyboards.reply.priority_kb import priority_kb
+from config_data.config import settings
 
 
 router = Router(name=__name__)
@@ -33,53 +34,20 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 		)
 	
 
-# Переход назад к состоянию "state"
+# Переход назад к состоянию "status"
 @router.message(CreateTask.priority, F.text == "Назад")
 async def proirity_task_back(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.state)
+	await state.set_state(CreateTask.status)
 	await message.answer(
 		text="Выберите состояние задачи.",
-		reply_markup=state_kb(),
+		reply_markup=status_kb(),
 		)
 	
 
-# Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Low)
-@router.message(CreateTask.priority, F.text == "Low")
-async def priority_task1(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.deadline_date)
-	await state.update_data(priority=message.text)
-	await message.answer(
-		text="Напишите дедлайн задачи в формате 31-12-2012",
-		reply_markup=back_kb(),
-	)
-
-
-# Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Normal)
-@router.message(CreateTask.priority, F.text == "Normal")
-async def priority_task2(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.deadline_date)
-	await state.update_data(priority=message.text)
-	await message.answer(
-		text="Напишите дедлайн задачи в формате 31-12-2012",
-		reply_markup=back_kb(),
-	)
-
-
-# Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Major)
-@router.message(CreateTask.priority, F.text == "Major")
-async def priority_task3(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.deadline_date)
-	await state.update_data(priority=message.text)
-	await message.answer(
-		text="Напишите дедлайн задачи в формате 31-12-2012",
-		reply_markup=back_kb(),
-	)
-
-
-# Переход к следующему состоянию "deadline_date" если пользователь ввел корректный приоритет задачи (Critical)
-@router.message(CreateTask.priority, F.text == "Critical")
-async def priority_task4(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.deadline_date)
+# Переход к следующему состоянию если пользователь выбрал приоритет задачи из списка приоритетов
+@router.message(CreateTask.priority, F.text.in_(settings.priority))
+async def priority_task(message: Message, state: FSMContext):
+	await state.set_state(CreateTask.deadline)
 	await state.update_data(priority=message.text)
 	await message.answer(
 		text="Напишите дедлайн задачи в формате 31-12-2012",

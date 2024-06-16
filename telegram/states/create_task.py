@@ -1,11 +1,12 @@
 from aiogram.fsm.state import State, StatesGroup
 
 
+# FSM для создания задачи
 class CreateTask(StatesGroup):
 	name = State()
 	description = State()
-	responsible_person = State()
+	worker = State()
 	tags = State()
-	state = State()
+	status = State()
 	priority = State()
-	deadline_date = State()
+	deadline = State()

@@ -33,8 +33,8 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
 	
 
 # Переход назад к состоянию "description"
-@router.message(CreateTask.responsible_person, F.text == "Назад")
-async def responsible_person_task_back(message: Message, state: FSMContext):
+@router.message(CreateTask.worker, F.text == "Назад")
+async def worker_task_back(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.description)
 	await message.answer(
 		text="Опишите задачу.",
@@ -43,9 +43,9 @@ async def responsible_person_task_back(message: Message, state: FSMContext):
 	
 
 # Пропуск выбора исполнителя и переход к состоянию "tags"
-@router.message(CreateTask.responsible_person, F.text == "Дальше")
-async def responsible_person_task_further(message: Message, state: FSMContext):
-	await state.update_data(responsible_person=None)
+@router.message(CreateTask.worker, F.text == "Дальше")
+async def worker_task_further(message: Message, state: FSMContext):
+	await state.update_data(worker=None)
 	await state.set_state(CreateTask.tags)
 	await message.answer(
 		text="Напишите теги этой задачи через пробел.\n"
@@ -55,10 +55,10 @@ async def responsible_person_task_further(message: Message, state: FSMContext):
 	
 
 # Переход к следующему состоянию "tags" если пользователь ввел корректного исполнителя
-@router.message(CreateTask.responsible_person, F.text)
-async def responsible_person_task(message: Message, state: FSMContext):
+@router.message(CreateTask.worker, F.text)
+async def worker_task(message: Message, state: FSMContext):
 	await state.set_state(CreateTask.tags)
-	await state.update_data(responsible_person=message.text)
+	await state.update_data(worker=message.text)
 	await message.answer(
 		text="Напишите теги этой задачи через пробел.\n"
 			 "Пример: bug python database",
@@ -68,8 +68,8 @@ async def responsible_person_task(message: Message, state: FSMContext):
 
 # Предупреждение пользователя о том что надо ввести корректного исполнителя
 # и так же не пропускает пользователя дальше
-@router.message(CreateTask.responsible_person)
-async def responsible_person_task_missklick(message: Message):
+@router.message(CreateTask.worker)
+async def worker_task_missklick(message: Message):
 	await message.answer(
 		text="Я вас не понял, напишите пожалуйста корректного исполнителя или пропустите данный этап!",
 		reply_markup=back_or_further_kb(),

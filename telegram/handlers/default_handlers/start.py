@@ -9,6 +9,7 @@ from keyboards.reply.main_kb import main_kb
 router = Router(name=__name__)
 
 
+# Start команда
 @router.message(CommandStart())
 async def start_handler(message: Message):
 	await message.reply(

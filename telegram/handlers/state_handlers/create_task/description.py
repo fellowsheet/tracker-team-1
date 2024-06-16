@@ -45,7 +45,7 @@ async def description_task_back(message: Message, state: FSMContext):
 # Переход к следующему состоянию если пользователь ввел корректный текст
 @router.message(CreateTask.description, F.text)
 async def description_task(message: Message, state: FSMContext):
-	await state.set_state(CreateTask.responsible_person)
+	await state.set_state(CreateTask.worker)
 	await state.update_data(description=message.text)
 	await message.answer(
 		text="Напишите ответственного человека или пропустите данный этап.",
