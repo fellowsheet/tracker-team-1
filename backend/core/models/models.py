@@ -53,11 +53,11 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(60), nullable=False, unique=True)
     created_at: Mapped[date] = mapped_column(nullable=False, default=date.today)
 
-    organizations: Mapped[List['Organization']] = relationship(back_populates='user')
+    organizations: Mapped[List['Organization']] = relationship(back_populates='owner')
 
-    tasks: Mapped[List['Task']] = relationship(back_populates='user')
+    tasks: Mapped[List['Task']] = relationship(back_populates='worker')
 
-    teams: Mapped[List['Team']] = relationship(secondary=team_user, back_populates='users')
+    teams: Mapped[List['Team']] = relationship(secondary=team_user, back_populates='workers')
 
 
 class Organization(Base):
@@ -68,8 +68,8 @@ class Organization(Base):
 
     teams: Mapped[List['Team']] = relationship(back_populates='organization')
 
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    user: Mapped['User'] = relationship(back_populates='organizations')
+    owner_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    owner: Mapped['User'] = relationship(back_populates='organizations')
 
 
 class Team(Base):
@@ -84,7 +84,7 @@ class Team(Base):
 
     boards: Mapped[List['Board']] = relationship(back_populates='team')
 
-    users: Mapped[List['User']] = relationship(secondary=team_user, back_populates='teams')
+    workers: Mapped[List['User']] = relationship(secondary=team_user, back_populates='teams')
 
 
 class Board(Base):
@@ -111,8 +111,8 @@ class Task(Base):
     board_id: Mapped[int] = mapped_column(ForeignKey('boards.id'))
     board: Mapped['Board'] = relationship(back_populates='tasks')
 
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    user: Mapped['User'] = relationship(back_populates='tasks')
+    worker_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    worker: Mapped['User'] = relationship(back_populates='tasks')
 
     tags: Mapped[List['Tag']] = relationship(secondary=task_tag, back_populates='tasks')
 
