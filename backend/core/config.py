@@ -12,7 +12,7 @@ class Settings(BaseSettings):
         env_ignore_empty=True,
         extra="ignore"
     )
-    SECRET_KEY: str
+    SECRET_KEY: str = 'secret'
 
     PROJECT_NAME: str = 'task_tracker'
     POSTGRES_SERVER: str
